@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  noa-beam-manager:
+    image: noa-beam-manager
+    build:
+      context: ./Noa.BeamManager.Docker
+    ports:
+    - 10004:10004
+    environment:
+      NoaBeamManager__Api__Port: 10005
+      NoaBeamManager__Database__ConnectionString: mongodb://root:example@localhost:27017
+      NoaBeamManager__Database__DatabaseName: noa-beam-manager-db
+    links:
+    - mongo
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+    - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
